@@ -43,7 +43,8 @@ def handle(msg):
         if "@" + name in text:
             tokens = text.split()
             for token in tokens:
-                if token in signos:
+                signo = token.lower()
+                if signo in signos:
                     bot.sendChatAction(chat_id, "typing")
                     m = "*%s*\n%s" % (signo.capitalize().decode('utf-8'), predicciones[signo][0].decode('utf-8'))
                     bot.sendMessage(chat_id, m, parse_mode="Markdown")
