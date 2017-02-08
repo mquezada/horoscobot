@@ -7,18 +7,20 @@ import random
 import string
 import sys
 
+name = "horoscothebot"
+
 signos = ['aries',
-		  'tauro',
-		  'geminis',
-		  'cancer',
-		  'acuario',
-		  'piscis',
-		  'leo',
-		  'virgo',
-		  'libra',
-		  'escorpio',
-		  'sagitario',
-		  'capricornio']
+          'tauro',
+	      'geminis',
+          'cancer',
+          'acuario',
+          'piscis',
+          'leo',
+          'virgo',
+          'libra',
+          'escorpio',
+          'sagitario',
+          'capricornio']
 
 predicciones = dict()
 for signo in signos:
@@ -37,12 +39,21 @@ def handle(msg):
 
     if 'text' in msg:
         text = msg['text']
-        signo = text[1:].split("@")[0]
-        if signo in signos:
-            bot.sendChatAction(chat_id, "typing")
-            #time.sleep(3)
-            m = "*%s*\n%s" % (signo.capitalize().decode('utf-8'), predicciones[signo][0].decode('utf-8'))
-            bot.sendMessage(chat_id, m, parse_mode="Markdown")
+
+        if "@" + name in text:
+            tokens = text.split()
+            for token in tokens:
+                if token in signos:
+                    bot.sendChatAction(chat_id, "typing")
+                    m = "*%s*\n%s" % (signo.capitalize().decode('utf-8'), predicciones[signo][0].decode('utf-8'))
+                    bot.sendMessage(chat_id, m, parse_mode="Markdown")
+                    break
+        else:
+            signo = text[1:].split("@")[0]
+            if signo in signos:
+                bot.sendChatAction(chat_id, "typing")
+                m = "*%s*\n%s" % (signo.capitalize().decode('utf-8'), predicciones[signo][0].decode('utf-8'))
+                bot.sendMessage(chat_id, m, parse_mode="Markdown")
 
 token = sys.argv[1]
 bot = telepot.Bot(token)
