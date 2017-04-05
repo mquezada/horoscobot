@@ -17,7 +17,7 @@ handler = logging.FileHandler('horoscothebot.log')
 handler.setLevel(logging.INFO)
 
 # create a logging format
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 
 # add the handlers to the logger
@@ -29,7 +29,20 @@ def log_message(msg):
     usr_id = _from.get('id')
     first_name = _from.get('first_name')
     text = msg.get('text')
-    logger.info('User: "{}" @{} ({}) - Message: {}'.format(first_name, username, usr_id, text))
+
+    chat_id = msg['chat']['id']
+
+    if msg['chat']['type'] in ('group', 'supergroup'):
+      title = msg['chat']['title']
+    else:
+      title = 'None'
+
+    logger.info('User: "{}" @{} ({}) - Chat: {} "{}" - Message: {}'.format(first_name, 
+                                                                           username, 
+                                                                           usr_id, 
+                                                                           chat_id,
+                                                                           title,
+                                                                           text.decode('utf-8')))
 
 
 name = "horoscothebot"
