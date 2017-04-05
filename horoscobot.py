@@ -9,6 +9,11 @@ import sys
 
 import logging
 
+def remove_accents(s: str) -> str:
+    return unicodedata.normalize('NFKD', s) \
+        .encode('ASCII', 'ignore') \
+        .decode('utf-8')
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -28,7 +33,7 @@ def log_message(msg):
     username = _from.get('username')
     usr_id = _from.get('id')
     first_name = _from.get('first_name')
-    text = msg.get('text')
+    text = remove_accents(msg.get('text'))
 
     chat_id = msg['chat']['id']
 
