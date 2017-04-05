@@ -6,24 +6,18 @@ import time
 import random
 import string
 import sys
-import unicodedata
 
 import logging
-
-def remove_accents(s):
-    return unicodedata.normalize('NFKD', s) \
-        .encode('ASCII', 'ignore') \
-        .decode('utf-8')
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # create a file handler
-handler = logging.FileHandler('horoscothebot.log')
+handler = logging.FileHandler('invitadobot.log', 'w', encoding='utf8')
 handler.setLevel(logging.INFO)
 
 # create a logging format
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 handler.setFormatter(formatter)
 
 # add the handlers to the logger
@@ -34,7 +28,8 @@ def log_message(msg):
     username = _from.get('username')
     usr_id = _from.get('id')
     first_name = _from.get('first_name')
-    text = remove_accents(msg.get('text'))
+    text = msg.get('text')
+    text = ' '.join(text.split()) if text else text
 
     chat_id = msg['chat']['id']
 
@@ -43,12 +38,7 @@ def log_message(msg):
     else:
       title = 'None'
 
-    logger.info('User: "{}" @{} ({}) - Chat: "{}" ({}) - Message: {}'.format(first_name, 
-                                                                             username, 
-                                                                             usr_id, 
-                                                                             title,
-                                                                             chat_id,
-                                                                             text.decode('utf-8')))
+    logger.info(u"<{}>#{} {}#{} <{}>: {}".format(title, chat_id, username, usr_id, first_name, text))
 
 
 name = "horoscothebot"
