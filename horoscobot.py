@@ -6,6 +6,7 @@ import time
 import random
 import string
 import sys
+import unicodedata
 
 import logging
 
