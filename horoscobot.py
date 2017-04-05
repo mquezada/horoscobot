@@ -23,6 +23,14 @@ handler.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(handler)
 
+def log_message(msg):
+    _from = msg.get('from', {})
+    username = _from.get('username')
+    usr_id = _from.get('id')
+    first_name = _from.get('first_name')
+    text = msg.get('text')
+    logger.info('User: "{}" @{} ({}) - Message: {}'.format(first_name, username, usr_id, text))
+
 
 name = "horoscothebot"
 
@@ -49,14 +57,7 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     flavor = telepot.flavor(msg)
 
-    _from = msg.get('from', {})
-    username = _from.get('username')
-    usr_id = _from.get('id')
-    first_name = _from.get('first_name')
-    # epoch = msg.get('date')
-    text = msg.get('text')
-
-    logger.info('User: "{}" @{} ({}) - Message: {}'.format(first_name, username, usr_id, text))
+    log_message(msg)
 
     if flavor != 'chat':
         return
