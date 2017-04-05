@@ -7,6 +7,23 @@ import random
 import string
 import sys
 
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# create a file handler
+handler = logging.FileHandler('horoscothebot.log')
+handler.setLevel(logging.INFO)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
+
+
 name = "horoscothebot"
 
 signos = ['aries',
@@ -31,8 +48,15 @@ for signo in signos:
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     flavor = telepot.flavor(msg)
-    pprint(msg)
-    pprint("flavor " + flavor)
+
+    _from = msg.get('from', {})
+    username = _from.get('username')
+    usr_id = _from.get('id')
+    first_name = _from.get('first_name')
+    # epoch = msg.get('date')
+    text = msg.get('text')
+
+    logger.info('User: "{}" @{} ({}) - Message: {}'.format(first_name, username, usr_id, text))
 
     if flavor != 'chat':
         return
