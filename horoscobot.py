@@ -9,7 +9,7 @@ import sys
 
 import logging
 
-def remove_accents(s) -> str:
+def remove_accents(s):
     return unicodedata.normalize('NFKD', s) \
         .encode('ASCII', 'ignore') \
         .decode('utf-8')
