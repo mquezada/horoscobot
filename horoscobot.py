@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # create a file handler
-handler = logging.FileHandler('invitadobot.log', 'w', encoding='utf8')
+handler = logging.FileHandler('invitadobot.log', 'a', encoding='utf8')
 handler.setLevel(logging.INFO)
 
 # create a logging format
