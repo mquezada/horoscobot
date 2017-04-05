@@ -9,7 +9,7 @@ import sys
 
 import logging
 
-def remove_accents(s: str) -> str:
+def remove_accents(s) -> str:
     return unicodedata.normalize('NFKD', s) \
         .encode('ASCII', 'ignore') \
         .decode('utf-8')
@@ -42,12 +42,12 @@ def log_message(msg):
     else:
       title = 'None'
 
-    logger.info('User: "{}" @{} ({}) - Chat: {} "{}" - Message: {}'.format(first_name, 
-                                                                           username, 
-                                                                           usr_id, 
-                                                                           chat_id,
-                                                                           title,
-                                                                           text.decode('utf-8')))
+    logger.info('User: "{}" @{} ({}) - Chat: "{}" ({}) - Message: {}'.format(first_name, 
+                                                                             username, 
+                                                                             usr_id, 
+                                                                             title,
+                                                                             chat_id,
+                                                                             text.decode('utf-8')))
 
 
 name = "horoscothebot"
